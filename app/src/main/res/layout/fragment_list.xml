@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.practice.project.androidbootcamp.viewmodel.RecyclerViewViewModel"/>
+    </data>
+    <LinearLayout
+        android:orientation="vertical" android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/backgroundFragment">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerview_venues"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            bind:recyclerViewViewModel="@{viewModel}"/>
+
+    </LinearLayout>
+</layout>
