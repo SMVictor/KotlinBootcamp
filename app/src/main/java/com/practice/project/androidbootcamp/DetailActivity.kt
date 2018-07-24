@@ -21,8 +21,8 @@ class DetailActivity : AppCompatActivity() {
 
         val venue = intent.getSerializableExtra("Venue") as Venue
 
-        mTitleVenueDetail!!.setText(venue.name)
-        mAddressVenueDetail!!.setText(venue.location.formattedAddressString)
+        mTitleVenueDetail!!.text = venue.name
+        mAddressVenueDetail!!.text = venue.location.formattedAddressString
         var categoriesNames = ""
         for (category in venue.categories) {
 

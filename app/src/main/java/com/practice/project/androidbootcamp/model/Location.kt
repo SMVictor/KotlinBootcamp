@@ -20,5 +20,5 @@ class Location : Serializable {
     var formattedAddressString: String? = null
     @Ignore
     @Expose
-    var formattedAddress: List<String>? = null
+    var formattedAddress: List<String> = ArrayList()
 }

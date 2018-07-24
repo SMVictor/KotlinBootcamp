@@ -11,15 +11,15 @@ import com.practice.project.androidbootcamp.model.Venue
 
 class VenuesAdapter : RecyclerView.Adapter<VenuesAdapter.VenueAdapterViewHolder>() {
 
-    private var mVenuesData: List<Venue>? = null
+    private var mVenuesData: List<Venue>? = ArrayList()
     private var layoutInflater: LayoutInflater? = null
 
     /**
      * Cache of the children views for a venue list item.
      */
-    inner class VenueAdapterViewHolder(private val venueBinding: VenueBinding) : RecyclerView.ViewHolder(venueBinding.getRoot()) {
+    inner class VenueAdapterViewHolder(private val venueBinding: VenueBinding) : RecyclerView.ViewHolder(venueBinding.root) {
         fun bind(venue: Venue) {
-            this.venueBinding.setVenueModel(venue)
+            this.venueBinding.venueModel = venue
         }
     }
 

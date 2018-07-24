@@ -6,7 +6,7 @@ import com.practice.project.androidbootcamp.model.Category
 import com.practice.project.androidbootcamp.model.Location
 import com.practice.project.androidbootcamp.model.Venue
 
-@Database(entities = arrayOf(Category::class, Location::class, Venue::class), version = 1)
+@Database(entities = [(Category::class), (Location::class), (Venue::class)], version = 1)
 abstract class VenueDatabase : RoomDatabase() {
     abstract fun categoryDao(): CategoryDao
     abstract fun locationDao(): LocationDao

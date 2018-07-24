@@ -6,5 +6,5 @@ import java.io.Serializable
 class JsonResponse : Serializable {
 
     @Expose
-    var response: Response? = null
+    var response: Response = Response()
 }
