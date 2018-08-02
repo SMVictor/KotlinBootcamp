@@ -7,8 +7,8 @@ import android.net.ConnectivityManager
 class NetworkUtilities {
 
     fun isConnectedToNetwork(context: Context): Boolean {
-        var connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        var activeNetworkInfo = connectivityManager.activeNetworkInfo
+        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetworkInfo = connectivityManager.activeNetworkInfo
         return activeNetworkInfo != null && activeNetworkInfo.isConnected
     }
 }

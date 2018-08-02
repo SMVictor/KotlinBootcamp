@@ -1,5 +1,6 @@
 package com.practice.project.androidbootcamp.viewmodel
 
+import android.annotation.SuppressLint
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
@@ -15,6 +16,7 @@ class VenuesViewModel : ViewModel() {
 
     var mVenues: MutableLiveData<List<Venue>>? = null
     private val mNetworkUtilities = NetworkUtilities()
+    @SuppressLint("StaticFieldLeak")
     var mContext: Context? = null
 
     fun getVenues(): LiveData<List<Venue>> {
@@ -31,12 +33,11 @@ class VenuesViewModel : ViewModel() {
     }
 
     private fun loadVenuesFromFourSquareAPI(geoLocation: String) {
-        val fourSquareAPIController = FourSquareAPIController()
-        fourSquareAPIController.mGeoLocation = geoLocation
-        fourSquareAPIController.mVenues = mVenues
+        val fourSquareAPIController = FourSquareAPIController(geoLocation, mVenues!!, mContext!!)
         fourSquareAPIController.start()
     }
 
+    @SuppressLint("StaticFieldLeak")
     inner class LoadVenuesFromDatabaseTask : AsyncTask<Void, Void, List<Venue>>() {
         override fun doInBackground(vararg voids: Void): List<Venue> {
             var venues: List<Venue> = ArrayList()

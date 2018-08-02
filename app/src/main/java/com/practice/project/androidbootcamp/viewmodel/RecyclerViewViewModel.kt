@@ -15,7 +15,7 @@ import com.practice.project.androidbootcamp.utilities.FourSquareAPIController
 import com.practice.project.androidbootcamp.utilities.NetworkUtilities
 import java.util.ArrayList
 
-class RecyclerViewViewModel(private val mActivity: Activity, private val mContext: Context) : ViewModel() {
+class RecyclerViewViewModel(@SuppressLint("StaticFieldLeak") private val mActivity: Activity, @SuppressLint("StaticFieldLeak") private val mContext: Context) : ViewModel() {
 
     private val mVenuesAdapter = VenuesAdapter()
     private val mVenues = MutableLiveData<List<Venue>>()
@@ -40,9 +40,7 @@ class RecyclerViewViewModel(private val mActivity: Activity, private val mContex
     }
 
     private fun loadVenues(geoLocation: String) {
-        val fourSquareAPIController = FourSquareAPIController()
-        fourSquareAPIController.mGeoLocation = geoLocation
-        fourSquareAPIController.mVenues = mVenues
+        val fourSquareAPIController = FourSquareAPIController(geoLocation, mVenues, mContext)
         fourSquareAPIController.start()
     }
 

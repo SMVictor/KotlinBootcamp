@@ -27,9 +27,9 @@ class VenuesAdapter : RecyclerView.Adapter<VenuesAdapter.VenueAdapterViewHolder>
         if (layoutInflater == null) {
             layoutInflater = LayoutInflater.from(viewGroup.context)
         }
-        var venueBinding = VenueBinding.inflate(layoutInflater!!, viewGroup, false)
+        val venueBinding = VenueBinding.inflate(layoutInflater!!, viewGroup, false)
 
-        var venueAdapterViewHolder = VenueAdapterViewHolder(venueBinding)
+        val venueAdapterViewHolder = VenueAdapterViewHolder(venueBinding)
 
         venueAdapterViewHolder.itemView.setOnClickListener {
             val destinationClass = DetailActivity::class.java
@@ -42,7 +42,7 @@ class VenuesAdapter : RecyclerView.Adapter<VenuesAdapter.VenueAdapterViewHolder>
     }
 
     override fun onBindViewHolder(venueAdapterViewHolder: VenueAdapterViewHolder, position: Int) {
-        var venue = mVenuesData!![position]
+        val venue = mVenuesData!![position]
         venueAdapterViewHolder.bind(venue)
     }
 

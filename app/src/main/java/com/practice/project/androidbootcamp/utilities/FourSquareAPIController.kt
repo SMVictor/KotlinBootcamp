@@ -1,6 +1,7 @@
 package com.practice.project.androidbootcamp.utilities
 
 import android.arch.lifecycle.MutableLiveData
+import android.content.Context
 import com.google.gson.GsonBuilder
 import com.practice.project.androidbootcamp.MainActivity
 import com.practice.project.androidbootcamp.model.Category
@@ -12,9 +13,21 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class FourSquareAPIController : Callback<JsonResponse> {
-    var mGeoLocation: String? = null
-    var mVenues: MutableLiveData<List<Venue>>? = null
+class FourSquareAPIController(private val mGeoLocation : String, private val mVenues: MutableLiveData<List<Venue>>,
+                              private val mContext : Context) : Callback<JsonResponse> {
+
+    private val BASE_URL = "https://api.foursquare.com/v2/"
+    private val API_VERSION = "20130815"
+    private val RADIUS = "1000"
+
+    private val mFileUtilities: FileUtilities = FileUtilities(mContext)
+    private val mClientID: String
+    private val mClientSecret: String
+
+    init {
+        mClientID = mFileUtilities.getFourSquareData("CLIENT_ID")
+        mClientSecret = mFileUtilities.getFourSquareData("CLIENT_SECRET")
+    }
 
     fun start() {
 
@@ -29,17 +42,17 @@ class FourSquareAPIController : Callback<JsonResponse> {
 
         val fourSquareAPI = retrofit.create(FourSquareAPI::class.java)
 
-        val call = fourSquareAPI.requestSearch(CLIENT_ID, CLIENT_SECRET, API_VERSION, mGeoLocation!!, RADIUS)
+        val call = fourSquareAPI.requestSearch(mClientID, mClientSecret, API_VERSION, mGeoLocation!!, RADIUS)
         call.enqueue(this)
     }
 
     override fun onResponse(call: Call<JsonResponse>, response: Response<JsonResponse>) {
         try {
-            MainActivity.sVenuesAppDatabase!!.clearAllTables()
+            MainActivity.sVenuesAppDatabase.clearAllTables()
         } catch (e: Exception) {
         }
 
-        val venues = response.body()!!.response!!.venues
+        val venues = response.body()!!.response.venues
         for (venue in venues) {
             try {
                 if (venue.categories.size == 0) {
@@ -48,16 +61,16 @@ class FourSquareAPIController : Callback<JsonResponse> {
                     category.name = "Undefined"
                     venue.categories.add(category)
                 }
-                val categoryId = MainActivity.sVenuesAppDatabase!!.categoryDao()
+                val categoryId = MainActivity.sVenuesAppDatabase.categoryDao()
                         .insert(venue.categories[0])
                 venue.location.formattedAddressString = venue.location.formattedAddress.toString()
-                val locationId = MainActivity.sVenuesAppDatabase!!.locationDao()
+                val locationId = MainActivity.sVenuesAppDatabase.locationDao()
                         .insert(venue.location)
 
                 venue.categoryId = categoryId
                 venue.locationId = locationId
 
-                val venueId = MainActivity.sVenuesAppDatabase!!.venueDao().insert(venue)
+                val venueId = MainActivity.sVenuesAppDatabase.venueDao().insert(venue)
                 venue.venueId = venueId
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -69,14 +82,5 @@ class FourSquareAPIController : Callback<JsonResponse> {
 
     override fun onFailure(call: Call<JsonResponse>, t: Throwable) {
         t.printStackTrace()
-    }
-
-    companion object {
-
-        private const val BASE_URL = "https://api.foursquare.com/v2/"
-        private const val CLIENT_ID = "DJS3YIF02PXN1VHITVGRS3Q43X0XOUZ1R1QDLPCLF4ZYWYBI"
-        private const val CLIENT_SECRET = "XQUKOG2D00ZIQZ0OB4XNB3TEYGTVDRGDHS343IHVATP5GBEA"
-        private const val API_VERSION = "20130815"
-        private const val RADIUS = "1000"
     }
 }

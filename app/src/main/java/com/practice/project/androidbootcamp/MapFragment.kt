@@ -56,7 +56,7 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
         })
     }
 
-    fun setInitialLocationMap(latitude: Double?, longitude: Double?) {
+    private fun setInitialLocationMap(latitude: Double?, longitude: Double?) {
         val initialPosition = LatLng(latitude!!, longitude!!)
         mMap!!.addMarker(MarkerOptions()
                 .position(initialPosition)
@@ -65,7 +65,7 @@ class MapFragment : SupportMapFragment(), OnMapReadyCallback {
         mMap!!.moveCamera(CameraUpdateFactory.newLatLngZoom(initialPosition, 16f))
     }
 
-    fun setPointsInMap() {
+    private fun setPointsInMap() {
         for (i in mVenues.indices) {
             mMap!!.addMarker(MarkerOptions()
                     .title(mVenues[i].name)
